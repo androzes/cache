@@ -1,8 +1,5 @@
-LRU Cache
-- Add Builder factory
-- Tests for LRU Cache
+- Tests for LRU policy 
+- Tests for LFU policy
+- Tests for FIFO policy
+- Tests for Generic cache
 
-LFU Cache
-- Add LFU policy
-- Add LFU Builder
-- Tests for LFU Cache
