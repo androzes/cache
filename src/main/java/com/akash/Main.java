@@ -41,6 +41,11 @@ public class Main {
             .withLRUEvictionPolicy()
             .build();
 
+        Cache<Integer, Integer> lfuCache = new CacheBuilder<Integer, Integer>()
+            .withCapacity(capacity)
+            .withLFUEvictionPolicy()
+            .build();
+
         Cache<Integer, Integer> fifoCache = new CacheBuilder<Integer, Integer>()
             .withCapacity(capacity)
             .withFIFOEvictionPolicy()
@@ -54,31 +59,59 @@ public class Main {
 
         
         //Collections.sort(numsToAdd);
-        System.out.println("Adding to cache: " + numsToAdd);
+        
         HashSet<Integer> set = new HashSet<>(numsToAdd);
-
+        
+        System.out.println("-------------------------- LRU Cache Begin --------------------------");
+        System.out.println("Adding to cache: " + numsToAdd);
+        System.out.println(set.size() + " unique values added to cache: " +  set);
+        
         for (int num: numsToAdd) {
             System.out.println("Adding " + num + " to LRU cache: " + lruCache);
             lruCache.put(num, num);
+        }
+        System.out.println(lruCache.size() + " values in LRU cache: " +  lruCache);
+        System.out.println("Getting from cache: " + numsToGet);
+        for (int num: numsToGet) {
+            printer.print(num, lruCache.get(num));
+        }
+        System.out.println("-------------------------- LRU Cache End --------------------------");
+        System.out.println();
+        System.out.println();
+
+
+        System.out.println("-------------------------- LFU Cache Start --------------------------");
+        System.out.println("Adding to cache: " + numsToAdd);
+        System.out.println(set.size() + " unique values added to cache: " +  set);
+        for (int num: numsToAdd) {
+            System.out.println("Adding " + num + " to LFU cache: " + lfuCache);
+            lfuCache.put(num, num);
+        }
+        System.out.println(lfuCache.size() + " values in LFU cache: " +  lfuCache);
+        
+        System.out.println("Getting from cache: " + numsToGet);
+        for (int num: numsToGet) {
+            printer.print(num, lfuCache.get(num));
+        }
+        System.out.println("-------------------------- LFU Cache End --------------------------");
+        System.out.println();
+        System.out.println();
+
+
+        System.out.println("-------------------------- FIFO Cache Begin --------------------------");
+        System.out.println("Adding to cache: " + numsToAdd);
+        System.out.println(set.size() + " unique values added to cache: " +  set);
+        for (int num: numsToAdd) {            
             System.out.println("Adding " + num + " to FIFO cache: " + fifoCache);
             fifoCache.put(num, num);
         }
-
-        System.out.println(set.size() + " unique values added to cache: " +  set);
+        System.out.println(fifoCache.size() + " values in FIFO cache: " +  fifoCache);
+        
         System.out.println("Getting from cache: " + numsToGet);
-
-        List<Integer> valuesInCache = lruCache.getAll();
-        //Collections.sort(valuesInCache);
-        System.out.println(valuesInCache.size() + " values in LRU cache: " +  valuesInCache);
-
-        valuesInCache = fifoCache.getAll();
-        //Collections.sort(valuesInCache);
-        System.out.println(valuesInCache.size() + " values in FIFO cache: " +  valuesInCache);
-
         for (int num: numsToGet) {
-            printer.print(num, lruCache.get(num));
             printer.print(num, fifoCache.get(num));
         }
+        System.out.println("-------------------------- FIFO Cache End --------------------------");        
         
     }
 
