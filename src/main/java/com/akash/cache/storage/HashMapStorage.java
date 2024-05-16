@@ -1,10 +1,10 @@
-package com.akash.storage;
+package com.akash.cache.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.akash.storage.exception.KeyNotFoundException;
+import com.akash.cache.storage.exception.KeyNotFoundException;
 
 public class HashMapStorage<K,V> implements IStorage<K,V>{
     HashMap<K,V> map;

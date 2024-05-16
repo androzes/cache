@@ -1,11 +1,11 @@
-package com.akash.policy;
+package com.akash.cache.policy;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.akash.model.DoublyLinkedList;
-import com.akash.model.DoublyLinkedListNode;
+import com.akash.cache.model.DoublyLinkedList;
+import com.akash.cache.model.DoublyLinkedListNode;
 
 public class LRUEvictionPolicy<K> implements IEvictionPolicy<K> {
 
@@ -19,7 +19,9 @@ public class LRUEvictionPolicy<K> implements IEvictionPolicy<K> {
 
     @Override
     public K evict() {
-        return list.removeLast().val;
+        K evictedKey = list.removeLast().val;
+        map.remove(evictedKey);
+        return evictedKey;
     }
 
     @Override
@@ -44,6 +46,8 @@ public class LRUEvictionPolicy<K> implements IEvictionPolicy<K> {
         return list.getAll();
     }
 
-
+    public String toString() {
+        return list.toString();
+    }
     
 }

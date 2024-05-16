@@ -1,17 +1,13 @@
 package com.akash;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 import com.akash.cache.Cache;
-import com.akash.policy.IEvictionPolicy;
-import com.akash.policy.LRUEvictionPolicy;
-import com.akash.printer.KeyPairPrinter;
-import com.akash.storage.HashMapStorage;
-import com.akash.storage.IStorage;
+import com.akash.cache.Cache.CacheBuilder;
+import com.akash.cache.printer.KeyPairPrinter;
 
 // Problem Statement
  
@@ -33,16 +29,23 @@ import com.akash.storage.IStorage;
 
 public class Main {
     public static void main(String[] args) {
-        int capacity = 20;
+        int capacity = 10;
         int numCachableObjects = 50;
         int numCacheGets = 20;
 
-        int UPPER_BOUND = 100;
+        int UPPER_BOUND = 20;
         int LOWER_BOUND = 0;
 
-        IStorage<Integer, Integer> storage = new HashMapStorage<>();
-        IEvictionPolicy<Integer> evictionPolicy = new LRUEvictionPolicy<>();
-        Cache<Integer, Integer> lruCache = new Cache<>(storage, evictionPolicy, capacity);
+        Cache<Integer, Integer> lruCache = new CacheBuilder<Integer, Integer>()
+            .withCapacity(capacity)
+            .withLRUEvictionPolicy()
+            .build();
+
+        Cache<Integer, Integer> fifoCache = new CacheBuilder<Integer, Integer>()
+            .withCapacity(capacity)
+            .withFIFOEvictionPolicy()
+            .build();
+
         KeyPairPrinter<Integer, Integer> printer = new KeyPairPrinter<>();
 
 
@@ -52,21 +55,29 @@ public class Main {
         
         //Collections.sort(numsToAdd);
         System.out.println("Adding to cache: " + numsToAdd);
-        HashSet<Integer> set = new HashSet(numsToAdd);
+        HashSet<Integer> set = new HashSet<>(numsToAdd);
+
+        for (int num: numsToAdd) {
+            System.out.println("Adding " + num + " to LRU cache: " + lruCache);
+            lruCache.put(num, num);
+            System.out.println("Adding " + num + " to FIFO cache: " + fifoCache);
+            fifoCache.put(num, num);
+        }
+
         System.out.println(set.size() + " unique values added to cache: " +  set);
         System.out.println("Getting from cache: " + numsToGet);
 
-
-        for (int num: numsToAdd) {
-            lruCache.put(num, num);
-        }
-
         List<Integer> valuesInCache = lruCache.getAll();
-        Collections.sort(valuesInCache);
-        System.out.println(valuesInCache.size() + " values in cache: " +  valuesInCache);
+        //Collections.sort(valuesInCache);
+        System.out.println(valuesInCache.size() + " values in LRU cache: " +  valuesInCache);
+
+        valuesInCache = fifoCache.getAll();
+        //Collections.sort(valuesInCache);
+        System.out.println(valuesInCache.size() + " values in FIFO cache: " +  valuesInCache);
 
         for (int num: numsToGet) {
             printer.print(num, lruCache.get(num));
+            printer.print(num, fifoCache.get(num));
         }
         
     }

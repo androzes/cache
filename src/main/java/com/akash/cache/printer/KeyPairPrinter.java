@@ -1,4 +1,4 @@
-package com.akash.printer;
+package com.akash.cache.printer;
 
 public class KeyPairPrinter<K,V> {
 

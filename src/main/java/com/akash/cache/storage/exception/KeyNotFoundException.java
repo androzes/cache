@@ -1,4 +1,4 @@
-package com.akash.storage.exception;
+package com.akash.cache.storage.exception;
 
 public class KeyNotFoundException extends Exception{
 

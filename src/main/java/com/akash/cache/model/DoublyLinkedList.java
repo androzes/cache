@@ -1,4 +1,4 @@
-package com.akash.model;
+package com.akash.cache.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +85,15 @@ public class DoublyLinkedList<K> {
 
     public DoublyLinkedListNode<K> tail() {
         return tail;
+    }
+
+    public String toString() {
+        return new StringBuilder()
+        .append(getAll())
+        .append(" - ")
+        .append("head: ").append(head).append(",")
+        .append("tail: ").append(tail).append(",")
+        .toString();
     }
 }
  

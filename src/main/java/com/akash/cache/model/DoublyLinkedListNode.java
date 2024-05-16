@@ -1,4 +1,4 @@
-package com.akash.model;
+package com.akash.cache.model;
 
 public class DoublyLinkedListNode<V> {
 
@@ -9,6 +9,10 @@ public class DoublyLinkedListNode<V> {
 
     public DoublyLinkedListNode(V val) {
         this.val = val;
+    }
+
+    public String toString() {
+        return String.valueOf(val);
     }
 
 }

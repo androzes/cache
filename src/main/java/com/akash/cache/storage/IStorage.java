@@ -1,8 +1,8 @@
-package com.akash.storage;
+package com.akash.cache.storage;
 
 import java.util.List;
 
-import com.akash.storage.exception.KeyNotFoundException;
+import com.akash.cache.storage.exception.KeyNotFoundException;
 
 public interface IStorage<K,V> {
 
